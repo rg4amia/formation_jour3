@@ -1,0 +1,20 @@
+name: aej
+on:
+  push:
+    branches:
+      - 'feature/**'
+jobs:
+  security:
+    name: security job
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Print my username
+        run: |
+          echo "This formation is called DevOps"
+  authentication:
+    name: authentication job
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Print message
+        run: |
+          echo "DevOps allows to automate things"
