@@ -5,12 +5,10 @@ on:
       - 'feature/AEJ-4/**'
 jobs:
   build:
-    #runs-on: ubuntu-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         php: [7.4, 8.1, 8.2]
-        os: [ubuntu-latest]
     steps:
       - name: clone repo
         uses: actions/checkout@v4
