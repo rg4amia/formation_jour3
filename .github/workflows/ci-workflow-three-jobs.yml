@@ -40,15 +40,15 @@ jobs:
     needs: starttestprogr
     name: sonar-launch
     runs-on: ubuntu-20.04
-    setps:
+    steps:
       - if: ${{ steps.start-test-progr.outputs.test-non-regression == "OK" }}
         run: |
           echo $SONAR_DEV_URL
           echo ${{ RUNNER_OS }}
           sleep 2m
           echo "end Sonar Scanning"
-        -name: message-slack
-          if: ${{ cancel() }}
-            run: |
+      - name: message-slack
+        if: ${{ cancel() }}
+        run: |
               echo "Github a annulé mon job"
 
