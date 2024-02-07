@@ -44,10 +44,9 @@ jobs:
     name: sonar-launch
     runs-on: ubuntu-20.04
     steps:
-      - if: ${{ needs.starttestprogr.outputs.test-non-regression == "OK" }}
+      - if: ${{ needs.start-test-progr.outputs.test-non-regression == "OK" }}
         run: |
           echo $SONAR_DEV_URL
-          echo ${{ RUNNER_OS }}
           sleep 2m
           echo "end Sonar Scanning"
       - name: message-slack
