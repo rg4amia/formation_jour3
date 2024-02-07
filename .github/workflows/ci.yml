@@ -18,3 +18,4 @@ jobs:
       - name: Print message
         run: |
           echo "DevOps allows to automate things"
+
