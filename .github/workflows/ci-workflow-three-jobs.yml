@@ -14,41 +14,44 @@ jobs:
   startbuild:
     runs-on: ubuntu-latest
     name: start-build
+    timeout-minutes: 1
     steps:
-        timeout-minutes: 1
+      - name: buildstart
+        id: start-id-build
         run: |
           echo "Start build..."
           sleep 1s
           echo "end build..."
           echo "status=done" >> "$GITHUB_OUTPUT"
     outputs:
-      status: ${{ steps.start-build.outputs.status }}
+      status: ${{ steps.start-id-build.outputs.status }}
   starttestprogr:
     needs: startbuild
     name: start-test-progr
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ steps.start-build.outputs.status == "done" }}
+      - if: ${{ needs.startbuild.outputs.status == "done" }}
         run: |
           echo "start test non regression..."
           sleep 1s
           echo "end test non regression..."
           echo "testNonRegression=OK" >> "$GITHUB_OUTPUT"
+        id: start-test-id-progr
     outputs:
-      test-non-regression: ${{ steps.start-test-progr.testNonRegression }}
+      test-non-regression: ${{ steps.start-test-id-progr.testNonRegression }}
   sonalaunch:
     needs: starttestprogr
     name: sonar-launch
     runs-on: ubuntu-20.04
     steps:
-      - if: ${{ steps.start-test-progr.outputs.test-non-regression == "OK" }}
+      - if: ${{ needs.starttestprogr.outputs.test-non-regression == "OK" }}
         run: |
           echo $SONAR_DEV_URL
           echo ${{ RUNNER_OS }}
           sleep 2m
           echo "end Sonar Scanning"
       - name: message-slack
-        if: ${{ cancel() }}
+        if: ${{ cancelled() }}
         run: |
               echo "Github a annulé mon job"
 
