@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     steps:
-      - if: ${{ needs.start-test-progr.outputs.test-non-regression == 'OK' }}
+      - if: ${{ needs.starttestprogr.outputs.test-non-regression == 'OK' }}
         run: |
           echo $SONAR_DEV_URL
           sleep 2m
