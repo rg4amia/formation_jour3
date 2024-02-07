@@ -38,7 +38,7 @@ jobs:
           echo "testNonRegression=OK" >> "$GITHUB_OUTPUT"
         id: start-test-id-progr
     outputs:
-      test-non-regression: ${{ steps.start-test-id-progr.testNonRegression }}
+      test-non-regression: ${{ steps.start-test-id-progr.outputs.testNonRegression }}
   sonalaunch:
     needs: starttestprogr
     name: sonar-launch
