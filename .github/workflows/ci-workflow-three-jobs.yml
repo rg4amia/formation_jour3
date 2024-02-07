@@ -43,6 +43,7 @@ jobs:
     needs: starttestprogr
     name: sonar-launch
     runs-on: ubuntu-20.04
+    timeout-minutes: 1
     steps:
       - if: ${{ needs.start-test-progr.outputs.test-non-regression == 'OK' }}
         run: |
