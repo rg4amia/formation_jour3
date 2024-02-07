@@ -17,6 +17,8 @@ jobs:
           coverage: none
       - name: Installer les dependences
         run: composer install --prefer-dist
+      - name: Copy file .env.exemple to .env
+        run: cp .env.example .env
       - name: Generate key
         run: php artisan key:generate
       - name: Execution des tests
