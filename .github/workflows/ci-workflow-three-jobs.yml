@@ -30,7 +30,7 @@ jobs:
     name: start-test-progr
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ needs.startbuild.outputs.status == "done" }}
+      - if: ${{ needs.startbuild.outputs.status == 'done' }}
         run: |
           echo "start test non regression..."
           sleep 1s
@@ -44,7 +44,7 @@ jobs:
     name: sonar-launch
     runs-on: ubuntu-20.04
     steps:
-      - if: ${{ needs.start-test-progr.outputs.test-non-regression == "OK" }}
+      - if: ${{ needs.start-test-progr.outputs.test-non-regression == 'OK' }}
         run: |
           echo $SONAR_DEV_URL
           sleep 2m
