@@ -3,13 +3,11 @@ on:
   push:
     branches:
       - 'feature/AEJ-DAYS-4/**'
-env:
-  SONAR_DEV: "sonar-dev.agenceemploijeunes.ci"
 jobs:
   call-reusable-workflow:
     uses: rg4amia/formation_day4/.github/workflows/ci_common.yaml@main
     with:
-      sonar_host: ${{ env.SONAR_DEV }}
+      sonar_host: "sonar-dev.agenceemploijeunes.ci"
       environment: dev
       channel_id: ${{ vars.CHANNEL_ID }}
       job_status: ${{ job.status }}
