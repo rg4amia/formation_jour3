@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+    wordpress-net:
+
+services:
+  ngix:
+    image: nginx
+    container_name: nginx-frd4
+    cpus: 1
+    mem_limit: 512m
+    volumes:
+      - ./content:/usr/share/nginx/html/
+    ports:
+      - 8002:8182
+    networks:
+      - wordpress-net
+  mysql:
+    image: mysql:8.3.0
+    container_name: mysql-frd4
+    environment:
+      - MYSQL_ROOT_PASSWORD=MySuperSecretPassword
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    networks:
+      - wordpress-net
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress-frd4
+    environment:
+      - WORDPRESS_DB_HOST='mysql:3306'
+      - WORDPRESS_DB_USER=wordpress
+      - MYSQL_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+    networks:
+      - wordpress-net
+
+
+
