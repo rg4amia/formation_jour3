@@ -1,4 +1,4 @@
-name: activitie-ci
+name: new-activitie-ci
 on:
   push:
     branches:
