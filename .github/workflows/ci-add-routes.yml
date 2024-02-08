@@ -7,7 +7,7 @@ env:
   SONAR_DEV: "sonar-dev.agenceemploijeunes.ci"
 jobs:
   call-reusable-workflow:
-    uses: 'rg4amia/formation_day4/.github/workflow/ci_common.yaml@main'
+    uses: 'rg4amia/formation_day4/.github/workflows/ci_common.yaml@main'
     with:
       sonar_host: ${{ env.SONAR_DEV }}
       environment: dev
