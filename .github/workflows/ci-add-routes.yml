@@ -2,40 +2,56 @@ name: activitie-ci
 on:
   push:
     branches:
-      - 'feature/AEJ-4/**'
+      - 'feature/AEJ-DAYS-4/**'
+env:
+  SONAR_DEV: "sonar-dev.agenceemploijeunes.ci"
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: [7.4, 8.1, 8.2]
-    steps:
-      - name: clone repo
-        uses: actions/checkout@v4
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          #php-version: '8.2'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
-          coverage: none
-      - name: Installer les dependences
-        run: composer install --prefer-dist
-      - name: Copy file .env.exemple to .env
-        run: cp .env.example .env
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Execution des tests
-        run: |
-            echo "Execution des tests"
-      - name: Post to a Slack channel
-        if: failure()
-        id: slack
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          channel-id: ${{ vars.CHANNEL_ID }}
-          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.actor }}\n${{ runner.os }}"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  call-reusable-workflow:
+    uses: 'rg4amia/formation_day4/.github/workflow/ci_common.yaml@main'
+    with:
+      sonar_host: ${{ env.SONAR_DEV }}
+      environment: dev
+      channel_id: ${{ vars.CHANNEL_ID }}
+      job_status: ${{ job.status }}
+      github_actor: ${{ github.actor }}
+      runner_os: ${{ runner.os }}
+    secrets:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
+
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        php: [7.4, 8.1, 8.2]
+#    steps:
+#      - name: clone repo
+#        uses: actions/checkout@v4
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php }}
+#          #php-version: '8.2'
+#          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+#          coverage: none
+#      - name: Installer les dependences
+#        run: composer install --prefer-dist --no-interaction --no-update
+#      - name: Copy file .env.exemple to .env
+#        run: cp .env.example .env
+#      - name: Generate key
+#        run: php artisan key:generate
+#      - name: Execution des tests
+#        run: |
+#            echo "Execution des tests"
+#      - name: Post to a Slack channel
+#        if: failure()
+#        id: slack
+#        uses: slackapi/slack-github-action@v1.25.0
+#        with:
+#          channel-id: ${{ vars.CHANNEL_ID }}
+#          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.actor }}\n${{ runner.os }}"
+#        env:
+#          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+#
 
