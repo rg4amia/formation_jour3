@@ -2,7 +2,7 @@ name: new-activitie-ci
 on:
   push:
     branches:
-      - 'feature/AEJ-DAYS-4/**'
+      - 'feature/AEJ-DAYS**'
 jobs:
   call-reusable-workflow:
     uses: rg4amia/formation_day4/.github/workflows/ci_common.yaml@main
