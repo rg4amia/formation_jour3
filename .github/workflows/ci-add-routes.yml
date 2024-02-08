@@ -10,9 +10,7 @@ jobs:
       sonar_host: "sonar-dev.agenceemploijeunes.ci"
       environment: dev
       channel_id: ${{ vars.CHANNEL_ID }}
-      job_status: ${{ job.status }}
       github_actor: ${{ github.actor }}
-      runner_os: ${{ runner.os }}
     secrets:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
