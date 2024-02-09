@@ -4,8 +4,7 @@ on:
     branches:
       - 'feature/AEJ-DAYS**'
   workflow_dispatch:
-
-
+    
 jobs:
   call-reusable-workflow:
     uses: rg4amia/formation_day4/.github/workflows/ci_common.yaml@main
