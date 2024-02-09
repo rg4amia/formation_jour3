@@ -5,6 +5,7 @@ on:
       - 'feature/AEJ-DAYS**'
   workflow_dispatch:
 
+
 jobs:
   call-reusable-workflow:
     uses: rg4amia/formation_day4/.github/workflows/ci_common.yaml@main
@@ -19,4 +20,3 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       DEPENDENCY_TRACK_API_KEY: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-
