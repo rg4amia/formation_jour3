@@ -15,6 +15,7 @@ jobs:
       channel_id: ${{ vars.CHANNEL_ID }}
       github_actor: ${{ github.actor }}
       project_name: ${{ vars.PROJECT_NAME }}
+      version_dependency: ${{ vars.VERSION_DEPENDENCY }}
     secrets:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
