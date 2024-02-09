@@ -1,16 +1,22 @@
 name: new-activitie-ci
+
 on:
   push:
     branches:
       - 'feature/AEJ-DAYS**'
+
 jobs:
   call-reusable-workflow:
-    uses: rg4amia/formation_day4/.github/workflows/ci_common.yaml@main
-    with:
-      sonar_host: "sonar-dev.agenceemploijeunes.ci"
-      environment: dev
-      channel_id: ${{ vars.CHANNEL_ID }}
-      github_actor: ${{ github.actor }}
-    secrets:
-      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
+    #runs-on: ubuntu-latest
+    steps:
+      - name: analyse-sonar
+        uses: ./.github/workflows/ci-sonar.yml@main
+      - name: use-reusable-workflow
+        uses: rg4amia/formation_day4/.github/workflows/ci_common.yaml@main
+        with:
+          sonar_host: "sonar-dev.agenceemploijeunes.ci"
+          environment: dev
+          channel_id: ${{ secrets.CHANNEL_ID }}
+          github_actor: ${{ github.actor }}
+        secrets:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
