@@ -42,23 +42,20 @@ jobs:
           sudo systemctl restart httpd
           sudo systemctl reload httpd
           sudo cp -r /home/${{ secrets.EC2_USERNAME }}/source /var/www/html/
-          cd /var/www/html/
-          sudo mv source formationj6
+          sudo mv /var/www/html/source /var/www/html/formationj6
           echo "Apache droit!"
-          pwd
-          sudo cd /var/www/html/formationj6/
-          sudo cp /var/www/html/formationj6/.env.example /var/www/html/formationj6/.env
-          pwd
+          cd /var/www/html/formationj6/
+          sudo .env.example .env
           sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist --optimize-autoloader
           pwd
-          /var/www/html/formationj6/php artisan down
+          php artisan down
           sudo chcon -R -t httpd_sys_rw_content_t storage/
           sudo chown -R apache:apache /var/www/html/formationj6/
           sudo chmod -R 755 /var/www/html/formationj6/
           pwd
-          /var/www/html/formationj6/php artisan optimize
-          /var/www/html/formationj6/php artisan storage:link
-          /var/www/html/formationj6/php artisan up
+          php artisan optimize
+          php artisan storage:link
+          php artisan up
           echo "Application deployed!"
 
 
