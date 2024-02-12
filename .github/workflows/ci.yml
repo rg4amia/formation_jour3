@@ -20,3 +20,43 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         source: .
         target: "/home/ec2-user/source/"
+    - name: Preparation du serveur
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_KEY }}
+        port: ${{ secrets.EC2_PORT }}
+        script: |
+          cd
+          sudo yum update -y
+          sudo yum install git -y
+          sudo yum install php -y
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php -r "if (hash_file('sha384', 'composer-setup.php') === 'edb40769019ccf227279e3bdd1f5b2e9950eb000c3233ee85148944e555d97be3ea4f40c3c2fe73b22f875385f6a5155') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+          php composer-setup.php
+          php -r "unlink('composer-setup.php');"
+          sudo mv composer.phar /usr/local/bin/composer
+          sudo systemctl stop httpd
+          sudo systemctl start httpd
+          sudo systemctl restart httpd
+          sudo systemctl reload httpd
+          sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+          sudo firewall-cmd --reload
+          cp -r /home/${{ secrets.EC2_USERNAME }}/source /var/www/html/
+          cd /var/www/html/
+          mv source formationj6
+          echo "Apache droit!"
+          chown -R apache:apache /var/www/html/formationj && chmod -R 755 /var/www/html/formationj6
+          cd /var/www/html/formationj6 && cp .env.example .env
+          sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
+          sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist --optimize-autoloader
+          php artisan optimize
+          php artisan storage:link
+          php artisan up
+          echo "Application deployed!"
+          php artisan key:generate
+          sudo chcon -R -t httpd_sys_rw_content_t storage/
+
+
+
