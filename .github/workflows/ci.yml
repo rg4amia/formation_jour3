@@ -43,9 +43,8 @@ jobs:
           sudo systemctl reload httpd
           sudo cp -r /home/${{ secrets.EC2_USERNAME }}/source /var/www/html/
           sudo mv /var/www/html/source /var/www/html/formationj6
-
           cd /var/www/html/formationj6/
-          sudo .env.example .env
+          sudo cp .env.example .env
           sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist --optimize-autoloader
           pwd
           php artisan down
