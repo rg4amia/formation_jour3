@@ -6,6 +6,7 @@ on:
       environement:
         required: true
         type: string
+        
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
