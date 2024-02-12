@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: copy file via ssh password
+    - name: copy file via ssh with key
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -19,4 +19,4 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
         key: ${{ secrets.EC2_KEY }}
         source: .
-        target: "/home/ec2-user/"
+        target: "/home/ec2-user/source/"
