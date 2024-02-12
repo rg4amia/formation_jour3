@@ -19,4 +19,4 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
         key: ${{ secrets.EC2_KEY }}
         source: .
-        target: "/home/"
+        target: "/home/ec2-user/"
