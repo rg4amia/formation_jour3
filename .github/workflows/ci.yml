@@ -43,16 +43,18 @@ jobs:
           sudo systemctl reload httpd
           sudo cp -r /home/${{ secrets.EC2_USERNAME }}/source /var/www/html/
           sudo mv /var/www/html/source /var/www/html/formationj6
-          echo "Apache droit!"
+
           cd /var/www/html/formationj6/
           sudo .env.example .env
           sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist --optimize-autoloader
           pwd
           php artisan down
           sudo chcon -R -t httpd_sys_rw_content_t storage/
+          echo "Apache droit!"
           sudo chown -R apache:apache /var/www/html/formationj6/
           sudo chmod -R 755 /var/www/html/formationj6/
           pwd
+          php artisan key:generate
           php artisan optimize
           php artisan storage:link
           php artisan up
