@@ -41,13 +41,11 @@ jobs:
           sudo systemctl start httpd
           sudo systemctl restart httpd
           sudo systemctl reload httpd
-          sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
-          sudo firewall-cmd --reload
-          cp -r /home/${{ secrets.EC2_USERNAME }}/source /var/www/html/
+          sudo cp -r /home/${{ secrets.EC2_USERNAME }}/source /var/www/html/
           cd /var/www/html/
-          mv source formationj6
+          sudo mv source formationj6
           echo "Apache droit!"
-          chown -R apache:apache /var/www/html/formationj && chmod -R 755 /var/www/html/formationj6
+          chown -R apache:apache /var/www/html/formationj6 && chmod -R 755 /var/www/html/formationj6
           cd /var/www/html/formationj6 && cp .env.example .env
           sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
           sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist --optimize-autoloader
