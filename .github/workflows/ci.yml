@@ -47,7 +47,6 @@ jobs:
           sudo cp .env.example .env
           sudo /usr/local/bin/composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist --optimize-autoloader
           pwd
-          php artisan down
           sudo chcon -R -t httpd_sys_rw_content_t storage/
           echo "Apache droit!"
           sudo chown -R apache:apache /var/www/html/formationj6/
@@ -56,7 +55,6 @@ jobs:
           php artisan key:generate
           php artisan optimize
           php artisan storage:link
-          php artisan up
           echo "Application deployed!"
 
 
